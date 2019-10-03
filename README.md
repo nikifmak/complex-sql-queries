@@ -1,5 +1,10 @@
 # Complex-sql-queries
 
+## Find min value of field
+```sql
+select MIN(month) from homepage_banners;
+```
+
 ## Like on integer field => cast as text and LIKE
 ```sql
  select distinct "rest_id" from "shop_actions" where CAST("rest_id" as text) LIKE '%3' limit 10
