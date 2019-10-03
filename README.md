@@ -1,6 +1,12 @@
 # complex-sql-queries
 
-# Query change sequence id 
+## Like on integer field => cast as text and LIKE
+```sql
+ select distinct "rest_id" from "shop_actions" where CAST("rest_id" as text) LIKE '%3' limit 10
+
+```
+
+## Query change sequence id 
 ```sql 
 SELECT
 	setval('area_area_id_seq', COALESCE((
@@ -8,7 +14,7 @@ SELECT
 				MAX(area_id) + 1 FROM area), 1), FALSE);
 ```				
 
-# Query 1 - 1
+## Query 1 - 1
 ```sql
 EXPLAIN (ANALYZE, COSTS, VERBOSE, BUFFERS, FORMAT JSON)
 SELECT
@@ -37,7 +43,7 @@ GROUP BY
 
 ```
 
-# Query 1 - 2
+## Query 1 - 2
 ```sql
 SELECT
 	count(
