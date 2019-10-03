@@ -1,4 +1,4 @@
-# complex-sql-queries
+# Complex-sql-queries
 
 ## Like on integer field => cast as text and LIKE
 ```sql
