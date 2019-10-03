@@ -1,5 +1,13 @@
 # complex-sql-queries
 
+# Query change sequence id 
+```sql 
+SELECT
+	setval('area_area_id_seq', COALESCE((
+			SELECT
+				MAX(area_id) + 1 FROM area), 1), FALSE);
+```				
+
 # Query 1 - 1
 ```sql
 EXPLAIN (ANALYZE, COSTS, VERBOSE, BUFFERS, FORMAT JSON)
