@@ -48,7 +48,7 @@ GROUP BY
 
 ```
 
-## Query 1 - 2
+## Query 1 - 2 Faster due to initial aggregation (http://tatiyants.com)
 ```sql
 SELECT
 	count(
