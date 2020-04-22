@@ -1,5 +1,27 @@
 # Complex-sql-queries
 
+## Select with case
+```sql
+SELECT
+	sales_id,
+	CASE WHEN main = TRUE THEN
+		name
+	ELSE
+		NULL
+	END AS main_cuisine
+FROM
+	cuisines
+```
+result
+|sales_id|cuisine  |
+|---|---|
+|LD12192445350	| Pizza| 
+|LD12192445350	|NULL|
+|LD12192445350	|NULL|
+|LD12192436982	|Καφέδες|
+|LD12192436982	|NULL|
+|LD12192436982	|NULL|
+
 ## Find min value of field
 ```sql
 select MIN(month) from homepage_banners;
