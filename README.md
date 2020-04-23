@@ -4,13 +4,12 @@
 ```sql
 WITH cuisines_aggregated AS (
 	SELECT
-		s.sales_id,
-		ARRAY_AGG(c.name) AS cuisines
-	FROM
-		shops s
-	LEFT JOIN cuisines c ON c.sales_id = s.sales_id
+	sales_id,
+	ARRAY_AGG(name) AS cuisines
+FROM
+	cuisines
 GROUP BY
-	s.sales_id
+	sales_id
 )
 SELECT
 	cuisines_aggregated.sales_id,
