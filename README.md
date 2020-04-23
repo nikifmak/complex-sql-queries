@@ -28,13 +28,13 @@ WHERE
 
 ```sql
 SELECT
-	s.sales_id,
-	ARRAY_AGG(c.name) AS cuisines
+	sales_id,
+	ARRAY_AGG(name) AS cuisines
 FROM
-	shops s
-	LEFT JOIN cuisines c ON c.sales_id = s.sales_id
+	cuisines
 GROUP BY
-	s.sales_id
+	sales_id
+
 ```
 | sales_id | cuisines |
 |---|---|
