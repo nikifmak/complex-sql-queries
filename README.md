@@ -145,6 +145,7 @@ the crosstable will add the results to its fields with given order so incorrectl
 instead of having clickdelivery = SUSPENDED and deliveras = clickdelivery, it has box and clickdelivery SUSPENDED !!
 
 ## Crosstab example 2 
+https://postgresql.verite.pro/blog/2018/06/19/crosstab-pivot.html
 In this case we have as columns the years and as value the aggregate sum for each city for every month.
 We know that every city has records for every year and every month so there is one to one matching with categories fields.
 In other words, postgresql get the first query 
