@@ -2,7 +2,7 @@
 
 ## Aggregate table and table all values in array field
 
-```slq
+```sql
 SELECT
 	s.sales_id,
 	ARRAY_AGG(c.name) AS cuisines
