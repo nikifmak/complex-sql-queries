@@ -12,6 +12,16 @@ SELECT
 	ROW_NUMBER() OVER (PARTITION BY sales_id ORDER BY sales_id) AS cuisineNumber
 FROM
 	cuisines
+	
+-- The same query with concatinating a prefix 'cuisine'
+
+SELECT
+	sales_id,
+	name,
+	'cuisine' || CAST(ROW_NUMBER() OVER (PARTITION BY sales_id ORDER BY sales_id) AS VARCHAR) cuisineNumber
+FROM
+	cuisines
+	
 ```
 
 ## Self join table with 2 parts. The first one is aggragation and the second one is where query.
