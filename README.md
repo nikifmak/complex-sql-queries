@@ -1,5 +1,18 @@
 # Complex-sql-queries
 
+## Partition
+`row_number()` is a function that returns the corresponding row number over a partition
+`PARTITION BY` is clause that divides the result set into partitions (another term for groups of rows). So below, it creates small partitions of the same sales_id. 
+
+```sql
+SELECT
+	sales_id,
+	name,
+	ROW_NUMBER() OVER (PARTITION BY sales_id ORDER BY sales_id) AS cuisineNumber
+FROM
+	cuisines
+```
+
 ## Self join table with 2 parts. The first one is aggragation and the second one is where query.
 ```sql
 WITH cuisines_aggregated AS (
