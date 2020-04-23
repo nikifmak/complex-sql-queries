@@ -1,5 +1,29 @@
 # Complex-sql-queries
 
+## Self join table with 2 parts. The first one is aggragation and the second one is where query.
+```sql
+WITH cuisines_aggregated AS (
+	SELECT
+		s.sales_id,
+		ARRAY_AGG(c.name) AS cuisines
+	FROM
+		shops s
+	LEFT JOIN cuisines c ON c.sales_id = s.sales_id
+GROUP BY
+	s.sales_id
+)
+SELECT
+	cuisines_aggregated.sales_id,
+	cuisines_aggregated.cuisines,
+	cuisines.name AS main_cuisine
+FROM
+	cuisines_aggregated
+	LEFT JOIN cuisines ON cuisines.sales_id = cuisines_aggregated.sales_id
+WHERE
+	cuisines.main = TRUE
+
+```
+
 ## Aggregate table and table all values in array field
 
 ```sql
