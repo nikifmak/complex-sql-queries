@@ -42,6 +42,18 @@ GROUP BY
 |LD01181514929369 |	{Καφέδες,Κρέπες,Sandwich} |
 |LD01181514933165 |	{Βάφλες,Παγωτό,Καφέδες} |
 
+## Aggregate and join 
+```sql
+select * from shops 
+LEFT JOIN (select sales_id, ARRAY_AGG(name)
+from flags
+where value = TRUE
+group by sales_id) as flags_aggr  
+ON flags_aggr.sales_id = shops.sales_id
+
+
+```
+
 ## Select with case
 ```sql
 SELECT
