@@ -1,5 +1,24 @@
 # Complex-sql-queries
 
+## Aggregate table and table all values in array field
+
+```slq
+SELECT
+	s.sales_id,
+	ARRAY_AGG(c.name) AS cuisines
+FROM
+	shops s
+	LEFT JOIN cuisines c ON c.sales_id = s.sales_id
+GROUP BY
+	s.sales_id
+```
+| sales_id | cuisines |
+|---|---|
+|LD01181514885092 |	"{Kebab,Burgers,""Ψητά - Grill""}" |
+|LD01181514887676 |	"{Σουβλάκια,""Ψητά - Grill""}" |
+|LD01181514929369 |	{Καφέδες,Κρέπες,Sandwich} |
+|LD01181514933165 |	{Βάφλες,Παγωτό,Καφέδες} |
+
 ## Select with case
 ```sql
 SELECT
