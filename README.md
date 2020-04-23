@@ -3,7 +3,7 @@
 ## Partition
 `row_number()` is a function that returns the corresponding row number over a partition.
 
-`PARTITION BY` is clause that divides the result set into partitions (another term for groups of rows). So below, it creates small partitions of the same sales_id. 
+`PARTITION BY` (GROYP BY) is clause that divides the result set into partitions (another term for groups of rows). So below, it creates small partitions of the same sales_id. 
 
 ```sql
 SELECT
