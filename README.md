@@ -419,3 +419,36 @@ WHERE
 GROUP BY
 	t.dateMMYYYY
 ```	
+
+## Joining Multiple tables into one view
+```sql
+SELECT * FROM shops 
+LEFT JOIN hq_info on shops.sales_id = hq_info.sales_id
+LEFT JOIN legal_entities on shops.sales_id = legal_entities.sales_id
+LEFT JOIN locations on shops.sales_id = locations.sales_id
+LEFT JOIN (
+	SELECT sales_id, ARRAY_AGG(name) as flags_array
+	FROM flags
+	WHERE value = TRUE
+	GROUP BY sales_id
+) as flags_aggr  ON flags_aggr.sales_id = shops.sales_id
+LEFT JOIN (
+	SELECT
+		cuisines_aggregated.sales_id,
+		cuisines_aggregated.cuisines_array,
+		cuisines.name AS main_cuisine
+	FROM	
+		(
+			SELECT sales_id, ARRAY_AGG(name) AS cuisines_array
+			FROM cuisines
+			GROUP BY sales_id
+		) as cuisines_aggregated
+		
+	LEFT JOIN cuisines ON cuisines.sales_id = cuisines_aggregated.sales_id
+	WHERE cuisines.main = TRUE
+) as cuisines_aggr ON cuisines_aggr.sales_id = shops.sales_id
+	
+
+
+
+```
