@@ -44,7 +44,7 @@ CREATE EXTENSION IF NOT EXISTS tablefunc;
    'SELECT sales_id, name, status
     FROM competitors GROUP BY sales_id, name, status ORDER BY sales_id, name',
    -- query to generate the horizontal header
-    'SELECT DISTINCT name  FROM competitors ORDER BY name'
+    'SELECT DISTINCT name  FROM competitors ORDER BY name limit 10'
  )
   AS ct("sales_id" VARCHAR,
       "box" VARCHAR,
