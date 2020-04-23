@@ -269,6 +269,27 @@ WHERE
 
 ```
 
+## Above other way with nested select !
+```sql
+SELECT
+	cuisines_aggregated.sales_id,
+	cuisines_aggregated.cuisines,
+	cuisines.name AS main_cuisine
+FROM
+	(
+	SELECT
+	sales_id,
+	ARRAY_AGG(name) AS cuisines
+FROM
+	cuisines
+GROUP BY
+	sales_id
+) as cuisines_aggregated
+	
+LEFT JOIN cuisines ON cuisines.sales_id = cuisines_aggregated.sales_id
+WHERE cuisines.main = TRUE
+```
+
 ## Aggregate table and table all values in array field
 
 ```sql
