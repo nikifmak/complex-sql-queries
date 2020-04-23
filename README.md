@@ -36,6 +36,7 @@ SELECT DISTINCT name  FROM competitors ORDER BY name
       "wolt" VARCHAR
 ```
 
+### Overall
 ```sql
 CREATE EXTENSION IF NOT EXISTS tablefunc;
 
@@ -57,6 +58,44 @@ CREATE EXTENSION IF NOT EXISTS tablefunc;
       "vrisko" VARCHAR,
       "wolt" VARCHAR
 );
+```
+
+### [!]
+Lets add a new value into competitors
+```sql
+insert into competitors (sales_id, name, status ) 
+values ('LD01181514885092', 'test', 'ACTIVE')
+```
+then if we run the same query, we gonna get the error 
+```
+Query 1 ERROR: ERROR:  invalid return type
+DETAIL:  Query-specified return tuple has 11 columns but crosstab returns 12.
+```
+because we added a new category value that is not included in the crosstab query so its better to 
+
+### BEST
+```sql
+ SELECT * FROM crosstab( 
+   -- category query that returns 
+   -- 1. rowid
+   -- 2. category 
+   -- 3. values
+   'SELECT sales_id, name, status
+    FROM competitors GROUP BY sales_id, name, status ORDER BY sales_id, name'
+ )
+  AS ct("sales_id" VARCHAR,
+      "box" VARCHAR,
+      "clickdelivery" VARCHAR,
+      "deliveras" VARCHAR,
+      "deliverygr" VARCHAR,
+      "fagi" VARCHAR,
+      "fasterfood" VARCHAR,
+      "giaola" VARCHAR,
+      "skroutzfood" VARCHAR,
+      "vrisko" VARCHAR,
+      "wolt" VARCHAR
+);
+
 ```
 
 ## Partition
