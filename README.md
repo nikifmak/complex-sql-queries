@@ -1,5 +1,64 @@
 # Complex-sql-queries
 
+## Crosstab (PIVOT sql)
+`crosstab` is a function that transponses rows to columns.
+
+Let's analyze the query below:
+
+### 1. first input of function crosstab
+
+Its called category query and returns 
+1. rowid field (the field that is gonna work as id, in our case sales_id
+2. category field (the field that categorizies our input. For example here its : wolt, vrisko, box etc. 
+3. value field (the field that containts the values. Here : string -> SUSPENDED, ACTIVE
+```sql
+SELECT sales_id, name, status
+    FROM competitors GROUP BY sales_id, name, status ORDER BY sales_id, name
+```
+### 2. second input of function crosstab
+Return the list of columns that the above set it gonna be tested against: box, clickdelivery, deliveras etc
+```sql
+SELECT DISTINCT name  FROM competitors ORDER BY name
+```
+
+### 3. last part the returning table columns that we want and each values
+```sql
+ ct("sales_id" VARCHAR,
+      "box" VARCHAR,
+      "clickdelivery" VARCHAR,
+      "deliveras" VARCHAR,
+      "deliverygr" VARCHAR,
+      "fagi" VARCHAR,
+      "fasterfood" VARCHAR,
+      "giaola" VARCHAR,
+      "skroutzfood" VARCHAR,
+      "vrisko" VARCHAR,
+      "wolt" VARCHAR
+```
+
+```sql
+CREATE EXTENSION IF NOT EXISTS tablefunc;
+
+ SELECT * FROM crosstab( 
+   'SELECT sales_id, name, status
+    FROM competitors GROUP BY sales_id, name, status ORDER BY sales_id, name',
+   -- query to generate the horizontal header
+    'SELECT DISTINCT name  FROM competitors ORDER BY name'
+ )
+  AS ct("sales_id" VARCHAR,
+      "box" VARCHAR,
+      "clickdelivery" VARCHAR,
+      "deliveras" VARCHAR,
+      "deliverygr" VARCHAR,
+      "fagi" VARCHAR,
+      "fasterfood" VARCHAR,
+      "giaola" VARCHAR,
+      "skroutzfood" VARCHAR,
+      "vrisko" VARCHAR,
+      "wolt" VARCHAR
+);
+```
+
 ## Partition
 `row_number()` is a function that returns the corresponding row number over a partition.
 
