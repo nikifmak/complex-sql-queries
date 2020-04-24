@@ -1,5 +1,27 @@
 # Complex-sql-queries
 
+## Insert a record and get the id in order to save it as foreign key
+```sql
+WITH result AS (
+INSERT INTO contacts (sales_id,
+		name,
+		phone,
+		email)
+		VALUES($1,
+			$2,
+			$3,
+			$4)
+	RETURNING
+		id
+) INSERT INTO roles (sales_id, contact_id, TYPE)
+SELECT
+	$1,
+	id,
+	'shop_owner'
+FROM
+	result
+```
+
 ## select count distinct 
 Count how many distinst sales_id exist in the table
 ```sql
