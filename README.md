@@ -1,5 +1,12 @@
 # Complex-sql-queries
 
+## select count distinct 
+Count how many distinst sales_id exist in the table
+```sql
+select count(distinct(sales_id))
+ from assignees
+```
+
 ## Crosstab (PIVOT sql)
 `crosstab` is a function that transponses rows to columns.
 
