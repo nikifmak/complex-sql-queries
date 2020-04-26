@@ -32,10 +32,43 @@ SELECT
 	'shop_owner'
 FROM
 	contact_id c
+	
+---- ALTERNATIVE ------
+INSERT INTO emails(value)
+VALUES ('nikifmak@gmail.com')
+ON CONFLICT DO NOTHING
+
+
+INSERT INTO contacts(phone, name)
+VALUES ('6984673040', 'Nikiforos Makrynakis')
+ON CONFLICT DO NOTHING
 
 
 
+INSERT INTO emails_contacts(email_id, contact_id)
+SELECT e.id, (SELECT c.id
+			  FROM contacts c
+			  WHERE c.phone = '6984673040' and c.name = 'Nikiforos Makrynakis')
+FROM emails e where e.value = 'nikifmak@gmail.com'
+
+INSERT INTO shops_emails(sales_id, email_id)
+SELECT 'LD12192445350', (SELECT e.id
+			  FROM emails e
+			  WHERE e.value = 'nikifmak@gmail.com')
+
+INSERT INTO roles (sales_id, contact_id, type)
+SELECT
+	'LD12192445350',
+	id,
+	'shop_owner'
+FROM
+	contacts
+WHERE 
+	phone = '6984673040' and name = 'Nikiforos Makrynakis'
+
+	
 ```
+
 
 ## Either fields cannot be null
 https://www.postgresqltutorial.com/postgresql-not-null-constraint/
