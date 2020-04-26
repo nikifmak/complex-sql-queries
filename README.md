@@ -1,5 +1,42 @@
 # Complex-sql-queries
 
+## Insert 2 separate entries to different tables, get their foreign keys and create the intermediatate tables 
+```sql
+WITH email_id AS (
+	INSERT INTO emails(value)
+	VALUES ('nikifmak@gmail.com')
+	ON CONFLICT(value)  DO UPDATE SET value = 'nikifmak@gmail.com'
+	RETURNING id
+), contact_id AS (
+	INSERT INTO contacts(phone, name)
+	VALUES ('6984673040', 'Nikiforos Makrynakis')
+	ON CONFLICT(phone, name)  DO UPDATE SET name = 'Nikiforos Makrynakis'
+	RETURNING id
+)
+
+INSERT INTO emails_contacts(email_id, contact_id)
+SELECT e.id,
+	(SELECT c.id 
+	 FROM contact_id c
+	) 
+FROM email_id e
+
+INSERT INTO shops_emails(sales_id, email_id)
+SELECT 'LD12192445350', e.id 
+from email_id e
+
+INSERT INTO roles (sales_id, contact_id, type)
+SELECT
+	'LD12192445350',
+	c.id,
+	'shop_owner'
+FROM
+	contact_id c
+
+
+
+```
+
 ## Either fields cannot be null
 https://www.postgresqltutorial.com/postgresql-not-null-constraint/
 
