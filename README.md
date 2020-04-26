@@ -1,5 +1,21 @@
 # Complex-sql-queries
 
+## Crosstab safe with specifying columns as values
+```sql
+select * from crosstab(
+'SELECT sales_id, service, user_token from assignees GROUP BY sales_id, service, user_token ORDER BY sales_id, service',
+$$VALUES ('am'), ('fs'), ('menu'), ('peinata') , ('promoted')$$)
+as ct (
+	"sales_id" VARCHAR,
+	"am" VARCHAR,
+	"fs" VARCHAR,
+	"menu" VARCHAR,
+	"peinata" VARCHAR,
+	"promoted" VARCHAR
+) 
+```
+
+
 ## Insert a record and get the id in order to save it as foreign key
 ```sql
 WITH result AS (
