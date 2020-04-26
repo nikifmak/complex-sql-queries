@@ -1,5 +1,24 @@
 # Complex-sql-queries
 
+## Either fields cannot be null
+https://www.postgresqltutorial.com/postgresql-not-null-constraint/
+https://stackoverflow.com/questions/21021102/not-null-constraint-over-a-set-of-columns
+```sql
+CREATE TABLE users (
+ ID serial PRIMARY KEY,
+ username VARCHAR (50),
+ PASSWORD VARCHAR (50),
+ email VARCHAR (50),
+ CONSTRAINT username_email_notnull CHECK (
+   NOT (
+     ( username IS NULL  OR  username = '' )
+     AND
+     ( email IS NULL  OR  email = '' )
+   )
+ )
+);
+```
+
 ## Enable crosstab on psql
 ```sql
 CREATE EXTENSION IF NOT EXISTS tablefunc;
