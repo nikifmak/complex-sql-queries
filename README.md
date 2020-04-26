@@ -2,6 +2,7 @@
 
 ## Either fields cannot be null
 https://www.postgresqltutorial.com/postgresql-not-null-constraint/
+
 https://stackoverflow.com/questions/21021102/not-null-constraint-over-a-set-of-columns
 ```sql
 CREATE TABLE users (
