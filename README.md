@@ -1,6 +1,7 @@
 # Complex-sql-queries
 
 ## Crosstab safe with specifying columns as values
+https://stackoverflow.com/questions/3002499/postgresql-crosstab-query
 ```sql
 select * from crosstab(
 'SELECT sales_id, service, user_token from assignees GROUP BY sales_id, service, user_token ORDER BY sales_id, service',
