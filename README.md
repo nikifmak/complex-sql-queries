@@ -1,5 +1,10 @@
 # Complex-sql-queries
 
+## Enable crosstab on psql
+```sql
+CREATE EXTENSION IF NOT EXISTS tablefunc;
+```
+
 ## Crosstab safe with specifying columns as values
 https://stackoverflow.com/questions/3002499/postgresql-crosstab-query
 ```sql
