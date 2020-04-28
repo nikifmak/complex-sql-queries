@@ -1,5 +1,13 @@
 # Complex-sql-queries
 
+## Array Intersect or else check if an array has any common elements matched against a columns of type array
+```sql
+select sales_id, cuisines_array from total_shops 
+where '{Σουβλάκια,Pizza}'&& cuisines_array
+```
+Returns at every record that at its cuisines_array has at least one of the {Σουβλάκια,Pizza} values
+
+
 ## Not empty string field constraint (check)
 ```sql
 CREATE TABLE emails (
