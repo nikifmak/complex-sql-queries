@@ -1,5 +1,13 @@
 # Complex-sql-queries
 
+## Postgresql Any.
+https://stackoverflow.com/questions/34627026/in-vs-any-operator-in-postgresql
+Any can be used instead of where in clause
+```sql
+SELECT * FROM shops where shop_state = ANY('{lost, active}');
+
+```
+
 ## Insert 2 separate entries to different tables, get their foreign keys and create the intermediatate tables 
 ```sql
 WITH email_id AS (
