@@ -1,5 +1,13 @@
 # Complex-sql-queries
 
+## Not empty string field constraint (check)
+```sql
+CREATE TABLE emails (
+    id serial PRIMARY KEY,
+    value VARCHAR (255) NOT NULL UNIQUE CHECK (value <> '')
+);
+```
+
 ## Unique Compound key
 ```sql
 CREATE TABLE contacts (
