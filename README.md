@@ -1,5 +1,22 @@
 # Complex-sql-queries
 
+## Unique Compound key
+```sql
+CREATE TABLE contacts (
+    id serial PRIMARY KEY,
+    phone VARCHAR (255),
+    name VARCHAR (255),
+    UNIQUE(phone, name),
+    CONSTRAINT phone_or_name_not_null CHECK (
+        NOT (
+            ( phone IS NULL  OR  phone = '' )
+                AND
+            ( name IS NULL  OR  name = '' )
+        )
+    )
+);
+```
+
 ## Postgresql Any.
 https://stackoverflow.com/questions/34627026/in-vs-any-operator-in-postgresql
 Any can be used instead of where in clause
