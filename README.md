@@ -25,13 +25,25 @@ CREATE TABLE contacts (
 );
 ```
 
-## Postgresql Any.
+## Postgresql Any 1
 https://stackoverflow.com/questions/34627026/in-vs-any-operator-in-postgresql
+
 Any can be used instead of where in clause
+Here it means : `find all shops that have shop_state either lost or active`
 ```sql
 SELECT * FROM shops where shop_state = ANY('{lost, active}');
 
 ```
+## Postgresql Any 2
+https://stackoverflow.com/questions/39643454/postgres-check-if-array-field-contains-value/39643544
+
+Here it means: `find all shops that 'σουβλακία' is a value inside cuisines array or 
+find all shops that their cuisines array contains the value 'σουβλάκια'.`
+```sql
+select * from total_shops 
+where 'Σουβλάκια' = ANY (total_shops.cuisines_array) 
+```
+
 
 ## Insert 2 separate entries to different tables, get their foreign keys and create the intermediatate tables 
 ```sql
