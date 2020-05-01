@@ -1,5 +1,13 @@
 # Complex-sql-queries
 
+## Aggregate and concatenate into string
+```sql
+select sales_id, STRING_AGG(name, ', ')
+from flags
+where value = TRUE
+group by sales_id
+```
+
 ## Array Intersect or else check if an array has any common elements matched against a columns of type array
 ```sql
 select sales_id, cuisines_array from total_shops 
