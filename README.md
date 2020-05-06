@@ -1,5 +1,11 @@
 # Complex-sql-queries
 
+## Add unique constraint
+```sql
+ALTER TABLE users 
+ADD CONSTRAINT uninque_user_token UNIQUE (user_token);
+```
+
 ## Delete everything but 
 ```sql
 DELETE FROM users 
