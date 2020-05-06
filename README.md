@@ -1,5 +1,11 @@
 # Complex-sql-queries
 
+## Delete everything but 
+```sql
+DELETE FROM users 
+WHERE id not in (select id from users where id = ANY('{1,2,3,4,5,6,7}') )
+```
+
 ## Aggregate and concatenate into string
 ```sql
 select sales_id, STRING_AGG(name, ', ')
