@@ -1,5 +1,27 @@
 # Complex-sql-queries
 
+## Inner Joins with STRING_AGG
+```sql
+SELECT
+	area.area_id,
+	area.area_name,
+	zip_codes_aggr.zip_codes
+FROM
+	area_restaurant
+INNER JOIN area
+ON area_restaurant.area_id = area.area_id
+INNER JOIN (
+select area_id, STRING_AGG(zip_id::VARCHAR, ', ') as zip_codes
+from area_zip 
+GROUP BY area_id
+) as zip_codes_aggr ON zip_codes_aggr.area_id = area.area_id
+WHERE
+	platform_id = 1
+	AND rest_id = 897796
+ORDER BY
+	area.area_name
+```
+
 ## Add unique constraint
 ```sql
 ALTER TABLE users 
