@@ -663,7 +663,123 @@ LEFT JOIN (
 	WHERE cuisines.main = TRUE
 ) as cuisines_aggr ON cuisines_aggr.sales_id = shops.sales_id
 	
+```
+
+## Enormous view
+```sql
+CREATE VIEW total_new as (
+ SELECT
+     shops.sales_id, shops.shop_state,
+     shops.shop_name, shops.is_lead, shops.is_archived,
+     shops.own_delivery, shops.commission_rate, shops.cable_phone,
+
+     hq_info.hq_id, hq_info.status, hq_info.live_date, hq_info.suspend_date, hq_info.suspend_reason,
+     bi_info.shop_tier, bi_info.gmv_group,
+     legal_entities.vat_number, legal_entities.business_name, legal_entities.business_type,
+     legal_entities.tax_office,
+
+     (locations.city || '-' || locations.area) as region, locations.address, locations.area, locations.city, locations.zip,
+     flags_aggr.flags_array,
+     cuisines_aggr.cuisines_array, cuisines_aggr.main_cuisine,
+     competitors_aggr.*,
+     assignees_aggr.*
+
+ FROM
+     shops
+         LEFT JOIN hq_info ON shops.sales_id = hq_info.sales_id
+         LEFT JOIN bi_info ON shops.sales_id = bi_info.sales_id
+         LEFT JOIN legal_entities ON shops.sales_id = legal_entities.sales_id
+         LEFT JOIN locations ON shops.sales_id = locations.sales_id
+         LEFT JOIN (
+         SELECT
+             sales_id,
+             STRING_AGG(name, ',') AS flags_array
+         FROM
+             flags
+         WHERE
+                 value = TRUE
+         GROUP BY
+             sales_id) AS flags_aggr ON flags_aggr.sales_id = shops.sales_id
+         LEFT JOIN (
+         SELECT
+             cuisines_aggregated.sales_id,
+             cuisines_aggregated.cuisines_array,
+             cuisines.name AS main_cuisine
+         FROM (
+                  SELECT
+                      sales_id,
+                      STRING_AGG(name, ',') AS cuisines_array
+                  FROM
+                      cuisines
+                  GROUP BY
+                      sales_id) AS cuisines_aggregated
+                  LEFT JOIN cuisines ON cuisines.sales_id = cuisines_aggregated.sales_id
+         WHERE
+                 cuisines.main = TRUE) AS cuisines_aggr ON cuisines_aggr.sales_id = shops.sales_id
+         LEFT JOIN (
+         SELECT
+             sales_id as comp_saled_id, box, clickdelivery, deliveras, deliverygr, fagi, fasterfood, giaola, skroutzfood, vrisko, wolt
+         FROM
+             crosstab ('SELECT sales_id, name, status ' ||
+                       'FROM competitors GROUP BY sales_id, name, status ORDER BY sales_id, name',
+                       'SELECT DISTINCT name  FROM competitors ORDER BY name limit 10')
+                 AS ct (
+                        "sales_id" VARCHAR,
+                        "box" VARCHAR,
+                        "clickdelivery" VARCHAR,
+                        "deliveras" VARCHAR,
+                        "deliverygr" VARCHAR,
+                        "fagi" VARCHAR,
+                        "fasterfood" VARCHAR,
+                        "giaola" VARCHAR,
+                        "skroutzfood" VARCHAR,
+                        "vrisko" VARCHAR,
+                        "wolt" VARCHAR
+                 )) AS competitors_aggr ON competitors_aggr.comp_saled_id = shops.sales_id
+         LEFT JOIN (
+         SELECT
+             sales_id AS ass_saled_id,
+             split_part(am, '-', 1) am_assignee,
+             split_part(am, '-', 2) am_assignee_name,
+             split_part(fs, '-', 1) fs_assignee,
+             split_part(fs, '-', 2) fs_assignee_name,
+             split_part(menu, '-', 1) menu_assignee,
+             split_part(menu, '-', 2) menu_assignee_name,
+             split_part(peinata, '-', 1) peinata_assignee,
+             split_part(peinata, '-', 2) peinata_assignee_name,
+             split_part(promoted, '-', 1) promoted_assignee,
+             split_part(promoted, '-', 2) promoted_assignee_name
+         FROM
+             crosstab ('SELECT a.sales_id, a.service, a.user_id || ''-'' ||  u.name as assignee
+                FROM assignees as a
+                INNER JOIN users u
+                ON u.id = a.user_id
+                GROUP BY
+                    a.sales_id,
+                    a.service,
+                    a.user_id,
+                    u.name
+                ORDER BY a.sales_id, a.service',
+                                       $$
+                    VALUES('am'),
+                    ('fs'),
+                    ('menu'),
+                    ('peinata'),
+                    ('promoted') $$) AS ct ("sales_id" VARCHAR,
+                                            "am" VARCHAR,
+                            "fs" VARCHAR,
+                            "menu" VARCHAR,
+                            "peinata" VARCHAR,
+                            "promoted" VARCHAR))
+         AS assignees_aggr ON assignees_aggr.ass_saled_id = shops.sales_id
+);
+
+ALTER VIEW total RENAME TO total_old;
+ALTER VIEW total_new RENAME TO total;
+DROP VIEW total_old;
 
 
 
 ```
+
+
