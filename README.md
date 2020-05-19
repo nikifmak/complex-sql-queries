@@ -1,5 +1,23 @@
 # Complex-sql-queries
 
+## Use case to create a temp array with helping fields
+```sql
+SELECT
+	pr_month || '-' || area_id as key,
+	booked_price,
+	cuisine,
+	CASE when cuisine <> '' then 'cuisine' else 'all_day' end as type	
+FROM
+promoted_restaurants
+WHERE
+pr_restaurant_id = $1
+	AND is_morning = FALSE
+AND platform_id = 1
+and pr_month = ANY($2)
+AND deleted_at IS NULL
+```
+
+
 ## Inner Joins with STRING_AGG
 ```sql
 SELECT
