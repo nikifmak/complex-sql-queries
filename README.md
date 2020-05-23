@@ -1,5 +1,15 @@
 # Complex-sql-queries
 
+## Insert or update if exists
+```sql
+INSERT INTO vendors(name, domain, airtable_id, logo_url)
+VALUES ($1, $2, $3, $4)
+ON CONFLICT (airtable_id)
+DO 
+UPDATE 
+SET name = $1, domain = $2, logo_url = $4
+```
+
 ## Use case to create a temp array with helping fields
 ```sql
 SELECT
