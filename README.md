@@ -1,5 +1,10 @@
 # Complex-sql-queries
 
+## Select district values from array type field
+```sql
+select DISTINCT unnest(textures) as texture from items order by texture
+```
+
 ## Insert or update if exists
 ```sql
 INSERT INTO vendors(name, domain, airtable_id, logo_url)
