@@ -5,7 +5,7 @@
 select DISTINCT unnest(textures) as texture from items order by texture
 ```
 
-## Insert or update if exists
+## Upsert (insert or update if exists)
 ```sql
 INSERT INTO vendors(name, domain, airtable_id, logo_url)
 VALUES ($1, $2, $3, $4)
